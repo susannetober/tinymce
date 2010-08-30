@@ -38,6 +38,7 @@
                         cm.setActive('clearbr', n.nodeName == 'IMG');
                     }
                 );
+
         },
 
         /**

@@ -12,50 +12,102 @@ var ImageDialog = {
 		var f = document.forms[0], nl = f.elements, ed = tinyMCEPopup.editor, dom = ed.dom, n = ed.selection.getNode();
 
 		tinyMCEPopup.resizeToInnerSize();
-		this.fillClassList('class_list');
-		this.fillFileList('src_list', 'tinyMCEImageList');
-		this.fillFileList('over_list', 'tinyMCEImageList');
-		this.fillFileList('out_list', 'tinyMCEImageList');
+		//this.fillClassList('class_list');
+		//this.fillFileList('src_list', 'tinyMCEImageList');
+		//this.fillFileList('over_list', 'tinyMCEImageList');
+		//this.fillFileList('out_list', 'tinyMCEImageList');
 		TinyMCE_EditableSelects.init();
+		
 
 		if (n.nodeName == 'IMG') {
-			nl.src.value = dom.getAttrib(n, 'src');
-			nl.width.value = dom.getAttrib(n, 'width');
-			nl.height.value = dom.getAttrib(n, 'height');
-			nl.alt.value = dom.getAttrib(n, 'alt');
-			nl.title.value = dom.getAttrib(n, 'title');
-			nl.vspace.value = this.getAttrib(n, 'vspace');
-			nl.hspace.value = this.getAttrib(n, 'hspace');
-			nl.border.value = this.getAttrib(n, 'border');
-			selectByValue(f, 'align', this.getAttrib(n, 'align'));
-			selectByValue(f, 'class_list', dom.getAttrib(n, 'class'), true, true);
-			nl.style.value = dom.getAttrib(n, 'style');
-			nl.id.value = dom.getAttrib(n, 'id');
-			nl.dir.value = dom.getAttrib(n, 'dir');
-			nl.lang.value = dom.getAttrib(n, 'lang');
-			nl.usemap.value = dom.getAttrib(n, 'usemap');
-			nl.longdesc.value = dom.getAttrib(n, 'longdesc');
+			var img = $(ed.selection.getNode());
+			var div;
+			if(img.parent().hasClass('caption')){
+				div = img.parent();
+				
+				//set form values
+				nl.vspace_top.value = div.css('margin-top').replace('px','');
+				nl.vspace_bottom.value = div.css('margin-bottom').replace('px','');//this.getAttrib(n, 'vspace_bottom');
+				nl.hspace_left.value = div.css('margin-left').replace('px','');//this.getAttrib(n, 'hspace_left');
+				nl.hspace_right.value = div.css('margin-right').replace('px','');//this.getAttrib(n, 'hspace_right');
+				nl.border.value = div.css('border-top-width').replace('px','');//this.getAttrib(n, 'border');
+
+				if(div.css('float')!='none'){
+					nl.align.value = div.css('float');
+				}
+				else if(div.css('vertical-align')!='none'){
+					nl.align.value = div.css('vertical-align');
+				}
+				else {
+					nl.align.value = '';
+				} 
+			}
+			else{
+				nl.vspace_top.value = img.css('margin-top').replace('px','');
+				nl.vspace_bottom.value = img.css('margin-bottom').replace('px','');//this.getAttrib(n, 'vspace_bottom');
+				nl.hspace_left.value = img.css('margin-left').replace('px','');//this.getAttrib(n, 'hspace_left');
+				nl.hspace_right.value = img.css('margin-right').replace('px','');//this.getAttrib(n, 'hspace_right');
+				nl.border.value = img.css('border-top-width').replace('px','');//this.getAttrib(n, 'border');
+				if(img.css('float')!='none'){
+					nl.align.value = img.css('float');
+				}
+				else if(img.css('vertical-align')!='none'){
+					nl.align.value = img.css('vertical-align');
+				}
+				else {
+					nl.align.value = '';
+				} 
+			}
+			
+			nl.src.value = img.attr('src');
+			nl.width.value = img.width();
+			nl.height.value = img.height();
+			nl.alt.value = img.attr('alt');
+			nl.title.value = img.attr('title');
+			
+			/*
+			selectByValue(f, 'align', this.getAttrib(n, 'align'));*/
+			
+			var style = "";
+			if (div) {
+				style = div.attr('style');
+				style = style.substr(0,style.indexOf('width')-1);
+				//alert(style);
+				
+			}
+			else if(img.attr('style')){
+				//alert("img: "+img.attr('style'));
+				style = dom.getAttrib(n, 'style');
+			}
+			nl.style.value = style;
+			
+			//nl.id.value = dom.getAttrib(n, 'id');
+			//nl.dir.value = dom.getAttrib(n, 'dir');
+			//nl.lang.value = dom.getAttrib(n, 'lang');
+			//nl.usemap.value = dom.getAttrib(n, 'usemap');
+			//nl.longdesc.value = dom.getAttrib(n, 'longdesc');
 			nl.insert.value = ed.getLang('update');
 
-			if (/^\s*this.src\s*=\s*\'([^\']+)\';?\s*$/.test(dom.getAttrib(n, 'onmouseover')))
-				nl.onmouseoversrc.value = dom.getAttrib(n, 'onmouseover').replace(/^\s*this.src\s*=\s*\'([^\']+)\';?\s*$/, '$1');
-
-			if (/^\s*this.src\s*=\s*\'([^\']+)\';?\s*$/.test(dom.getAttrib(n, 'onmouseout')))
-				nl.onmouseoutsrc.value = dom.getAttrib(n, 'onmouseout').replace(/^\s*this.src\s*=\s*\'([^\']+)\';?\s*$/, '$1');
 
 			if (ed.settings.inline_styles) {
 				// Move attribs to styles
 				if (dom.getAttrib(n, 'align'))
 					this.updateStyle('align');
 
-				if (dom.getAttrib(n, 'hspace'))
-					this.updateStyle('hspace');
+				if (dom.getAttrib(n, 'hspace_left'))
+					this.updateStyle('hspace_left');
+				
+				if (dom.getAttrib(n, 'hspace_right'))
+					this.updateStyle('hspace_right');
 
 				if (dom.getAttrib(n, 'border'))
 					this.updateStyle('border');
 
-				if (dom.getAttrib(n, 'vspace'))
-					this.updateStyle('vspace');
+				if (dom.getAttrib(n, 'vspace_top'))
+					this.updateStyle('vspace_top');
+					
+				if (dom.getAttrib(n, 'vspace_bottom'))
+					this.updateStyle('vspace_bottom');
 			}
 		}
 
@@ -65,7 +117,7 @@ var ImageDialog = {
 			document.getElementById('src').style.width = '260px';
 
 		// Setup browse button
-		document.getElementById('onmouseoversrccontainer').innerHTML = getBrowserHTML('overbrowser','onmouseoversrc','image','theme_advanced_image');
+		/*document.getElementById('onmouseoversrccontainer').innerHTML = getBrowserHTML('overbrowser','onmouseoversrc','image','theme_advanced_image');
 		if (isVisible('overbrowser'))
 			document.getElementById('onmouseoversrc').style.width = '260px';
 
@@ -73,22 +125,27 @@ var ImageDialog = {
 		document.getElementById('onmouseoutsrccontainer').innerHTML = getBrowserHTML('outbrowser','onmouseoutsrc','image','theme_advanced_image');
 		if (isVisible('outbrowser'))
 			document.getElementById('onmouseoutsrc').style.width = '260px';
-
+*/
 		// If option enabled default contrain proportions to checked
 		if (ed.getParam("advimage_constrain_proportions", true))
 			f.constrain.checked = true;
+		
+		// If option enabled show caption to checked
+		/*if (ed.getParam("advimage_show_caption", true))
+			f.caption.checked = true;*/
 
 		// Check swap image if valid data
-		if (nl.onmouseoversrc.value || nl.onmouseoutsrc.value)
+		/*if (nl.onmouseoversrc.value || nl.onmouseoutsrc.value)
 			this.setSwapImage(true);
 		else
-			this.setSwapImage(false);
+			this.setSwapImage(false);*/
 
 		this.changeAppearance();
 		this.showPreviewImage(nl.src.value, 1);
 	},
 
 	insert : function(file, title) {
+		
 		var ed = tinyMCEPopup.editor, t = this, f = document.forms[0];
 
 		if (f.src.value === '') {
@@ -116,6 +173,7 @@ var ImageDialog = {
 	},
 
 	insertAndClose : function() {
+		
 		var ed = tinyMCEPopup.editor, f = document.forms[0], nl = f.elements, v, args = {}, el;
 
 		tinyMCEPopup.restoreSelection();
@@ -126,16 +184,20 @@ var ImageDialog = {
 
 		if (!ed.settings.inline_styles) {
 			args = {
-				vspace : nl.vspace.value,
-				hspace : nl.hspace.value,
+				vspace_top : nl.vspace.value_top,
+				vspace_bottom : nl.vspace.value_bottom,
+				hspace_left : nl.hspace.value_left,
+				hspace_right : nl.hspace.value_right,
 				border : nl.border.value,
-				align : getSelectValue(f, 'align')
+				align : getSelectValue(f, 'align'),
 			};
 		} else {
 			// Remove deprecated values
 			args = {
-				vspace : '',
-				hspace : '',
+				vspace_top : '',
+				vspace_bottom : '',
+				hspace_left : '',
+				hspace_right : '',
 				border : '',
 				align : ''
 			};
@@ -146,38 +208,42 @@ var ImageDialog = {
 			width : nl.width.value,
 			height : nl.height.value,
 			alt : nl.alt.value,
-			title : nl.title.value,
-			'class' : getSelectValue(f, 'class_list'),
+			title : nl.title.value,			
 			style : nl.style.value,
+			/*'class' : getSelectValue(f, 'class_list'),
 			id : nl.id.value,
 			dir : nl.dir.value,
 			lang : nl.lang.value,
 			usemap : nl.usemap.value,
-			longdesc : nl.longdesc.value
+			longdesc : nl.longdesc.value*/
 		});
 
-		args.onmouseover = args.onmouseout = '';
+		//args.onmouseover = args.onmouseout = '';
 
-		if (f.onmousemovecheck.checked) {
+		/*if (f.onmousemovecheck.checked) {
 			if (nl.onmouseoversrc.value)
 				args.onmouseover = "this.src='" + nl.onmouseoversrc.value + "';";
 
 			if (nl.onmouseoutsrc.value)
 				args.onmouseout = "this.src='" + nl.onmouseoutsrc.value + "';";
-		}
+		}*/
 
 		el = ed.selection.getNode();
 
 		if (el && el.nodeName == 'IMG') {
 			ed.dom.setAttribs(el, args);
+			tinyMCEPopup.editor.plugins.caption.updateCaption(tinyMCEPopup.editor); 
 		} else {
+
 			ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo : 1});
+			
 			ed.dom.setAttribs('__mce_tmp', args);
 			ed.dom.setAttrib('__mce_tmp', 'id', '');
 			ed.undoManager.add();
 		}
-
+		//tinyMCEPopup.editor.plugins.caption.updateCaption(tinyMCEPopup.editor); 
 		tinyMCEPopup.close();
+		
 	},
 
 	getAttrib : function(e, at) {
@@ -194,19 +260,31 @@ var ImageDialog = {
 
 					break;
 
-				case 'hspace':
+				case 'hspace_left':
 					v = dom.getStyle(e, 'margin-left')
-					v2 = dom.getStyle(e, 'margin-right');
+					//v2 = dom.getStyle(e, 'margin-right');
 
-					if (v && v == v2)
+					if (v /*&& v == v2*/)
+						return parseInt(v.replace(/[^0-9]/g, ''));
+					break;
+					
+				case 'hspace_right':
+					v = dom.getStyle(e, 'margin-right')
+
+					if (v)
+						return parseInt(v.replace(/[^0-9]/g, ''));
+					break;				
+
+				case 'vspace_top':
+					v = dom.getStyle(e, 'margin-top')
+					if (v)
 						return parseInt(v.replace(/[^0-9]/g, ''));
 
 					break;
-
-				case 'vspace':
-					v = dom.getStyle(e, 'margin-top')
-					v2 = dom.getStyle(e, 'margin-bottom');
-					if (v && v == v2)
+					
+				case 'vspace_bottom':
+					v = dom.getStyle(e, 'margin-bottom');
+					if (v)
 						return parseInt(v.replace(/[^0-9]/g, ''));
 
 					break;
@@ -257,7 +335,7 @@ var ImageDialog = {
 		f.onmouseoutsrc.disabled  = !st;
 	},
 
-	fillClassList : function(id) {
+	/*fillClassList : function(id) {
 		var dom = tinyMCEPopup.dom, lst = dom.get(id), v, cl;
 
 		if (v = tinyMCEPopup.getParam('theme_advanced_styles')) {
@@ -280,9 +358,9 @@ var ImageDialog = {
 			});
 		} else
 			dom.remove(dom.getParent(id, 'tr'));
-	},
+	},*/
 
-	fillFileList : function(id, l) {
+	/*fillFileList : function(id, l) {
 		var dom = tinyMCEPopup.dom, lst = dom.get(id), v, cl;
 
 		l = window[l];
@@ -296,6 +374,10 @@ var ImageDialog = {
 			});
 		} else
 			dom.remove(dom.getParent(id, 'tr'));
+	},*/
+	
+	setCaption : function(){
+		alert(img.html());
 	},
 
 	resetImageData : function() {
@@ -324,8 +406,10 @@ var ImageDialog = {
 			} else {
 				img.align = f.align.value;
 				img.border = f.border.value;
-				img.hspace = f.hspace.value;
-				img.vspace = f.vspace.value;
+				img.hspace_left = f.hspace_left.value;
+				img.hspace_right = f.hspace_right.value;
+				img.vspace_top = f.vspace_top.value;
+				img.vspace_bottom = f.vspace_bottom.value;
 			}
 		}
 	},
@@ -390,31 +474,43 @@ var ImageDialog = {
 			}
 
 			// Handle hspace
-			if (ty == 'hspace') {
+			if (ty == 'hspace_left') {
 				dom.setStyle(img, 'marginLeft', '');
-				dom.setStyle(img, 'marginRight', '');
 
-				v = f.hspace.value;
+				v = f.hspace_left.value;
 				if (v) {
 					img.style.marginLeft = v + 'px';
+				}
+			}
+			if (ty == 'hspace_right') {
+				dom.setStyle(img, 'marginRight', '');
+
+				v = f.hspace_right.value;
+				if (v) {
 					img.style.marginRight = v + 'px';
 				}
 			}
 
 			// Handle vspace
-			if (ty == 'vspace') {
+			if (ty == 'vspace_top') {
 				dom.setStyle(img, 'marginTop', '');
-				dom.setStyle(img, 'marginBottom', '');
 
-				v = f.vspace.value;
+				v = f.vspace_top.value;
 				if (v) {
 					img.style.marginTop = v + 'px';
+				}
+			}
+			if (ty == 'vspace_bottom') {
+				dom.setStyle(img, 'marginBottom', '');
+
+				v = f.vspace_bottom.value;
+				if (v) {
 					img.style.marginBottom = v + 'px';
 				}
 			}
 
 			// Merge
-			dom.get('style').value = dom.serializeStyle(dom.parseStyle(img.style.cssText), 'img');
+			dom.get('style').value = dom.serializeStyle(dom.parseStyle(img.style.cssText));
 		}
 	},
 
