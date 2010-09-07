@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>{#advhr.advhr_desc}</title>
+	<script type="text/javascript" src="http://www2.uibk.ac.at/scripts/jquery/jquery-latest.js"></script>
 	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script type="text/javascript" src="js/rule.js"></script>
 	<script type="text/javascript" src="../../utils/mctabs.js"></script>
@@ -28,6 +29,14 @@
                                 <option value="%">%</option>
                             </select>
                         </td>
+                    </tr>
+					<tr>
+                        <td><label for="size">{#advhr_dlg.alignment}</label></td>
+                        <td><select id="alignment" name="alignment">
+                            <option value="left">{#advhr_dlg.left}</option>
+                            <option value="center">{#advhr_dlg.center}</option>
+                            <option value="right">{#advhr_dlg.right}</option>
+                        </select></td>
                     </tr>
                     <!--<tr>
                         <td><label for="size">{#advhr_dlg.size}</label></td>
