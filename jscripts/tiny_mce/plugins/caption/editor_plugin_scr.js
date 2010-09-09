@@ -62,7 +62,7 @@
 				removeAlign: true,
 				copyAlignmentToClass: false,
 				copyFloatToClass: true,
-				autoWidth: true,
+				autoWidth: true
 		};
 			//var ed = tinyMCEPopup.editor;
 			var image = $(ed.selection.getNode());
