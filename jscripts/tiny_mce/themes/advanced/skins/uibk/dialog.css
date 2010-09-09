@@ -17,7 +17,7 @@ margin:8px 8px 0 8px;
 */
 
 html {background:#F0F0EE;height:100%}
-body{width:100%; height:100%}
+body{width:auto; height:auto}
 td {font-family:Verdana, Arial, Helvetica, sans-serif; font-size:10px;}
 textarea {resize:none;outline:none;}
 a:link, a:visited {color:black;}
