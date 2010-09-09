@@ -90,7 +90,9 @@ desc:"CSS-Styles bearbeiten"
 paste:{
 paste_text_desc:"Als normalen Text einf\u00FCgen",
 paste_word_desc:"Mit Formatierungen (aus Word) einf\u00FCgen",
-selectall_desc:"Alles ausw\u00E4hlen"
+selectall_desc:"Alles ausw\u00E4hlen",
+plaintext_mode_sticky:"Einf\u00FCgemodus ist nun \"Nur Text\". Erneut klicken (oder das Einf\u00FCgen aus der Zwischenablage) stellt den Normalmodus wieder her.",
+plaintext_mode:"Einf\u00FCgemodus ist nun \"Nur Text\". Erneut klicken stellt den Normalmodus wieder her."
 },
 paste_dlg:{
 text_title:"Dr\u00FCcken Sie auf Ihrer Tastatur Strg+V, um den Text einzuf\u00FCgen.",
@@ -152,4 +154,17 @@ no_mpell:"Keine Rechtschreibfehler gefunden."
 },
 pagebreak:{
 desc:"Seitenumbruch einf\u00FCgen"
-}}});
+},
+advlist:{
+types:"Typen",
+def:"Standard",
+lower_alpha:"a. b. c.",
+lower_greek:"1. 2. 3.",
+lower_roman:"i. ii. iii.",
+upper_alpha:"A. B. C.",
+upper_roman:"I. II. III.",
+circle:"Kreis",
+disc:"Punkt",
+square:"Quadrat"
+}
+}});
