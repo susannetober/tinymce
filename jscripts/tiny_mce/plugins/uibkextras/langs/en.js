@@ -22,18 +22,18 @@ tinyMCE.addI18n('en.uibkextrasFolder',{
 tinyMCE.addI18n('en.uibkextrasImage',{
 	desc : 'Insert Image Icon'
 });
-tinyMCE.addI18n('de.uibkextrasIntranet',{
+tinyMCE.addI18n('en.uibkextrasIntranet',{
 	desc : 'Insert Intranet Icon'
 });
-tinyMCE.addI18n('de.uibkextrasExternalLink',{
+tinyMCE.addI18n('en.uibkextrasExternalLink',{
 	desc : 'Insert External Link Icon'
 });
-tinyMCE.addI18n('de.uibkextrasNew',{
+tinyMCE.addI18n('en.uibkextrasNew',{
 	desc : 'Insert New Icon'
 });
-tinyMCE.addI18n('de.uibkextrasArrowBlack',{
+tinyMCE.addI18n('en.uibkextrasArrowBlack',{
 	desc : 'Insert Black Arrow Icon'
 });
-tinyMCE.addI18n('de.uibkextrasArrowOrange',{
+tinyMCE.addI18n('en.uibkextrasArrowOrange',{
 	desc : 'Insert Orange Arrow Icon'
 });
