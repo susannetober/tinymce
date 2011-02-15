@@ -21,7 +21,7 @@
         init : function(ed, url) {
 	    ed.addCommand('mcePasteClearbr',
 		function() {
-		    var html = '<br clear="all" />';
+		    var html = '<br class="clear" />';
 		    tinyMCE.get('body').execCommand('mceInsertContent', false, html);
 		}
 	    );
